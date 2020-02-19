@@ -12,16 +12,22 @@ public class WormsController : MonoBehaviour
     public float AmmoForce;
     public KeyCode ShootKey;
     public KeyCode negativeShootKey;
+    public bool isfacingRight;
+    public GameObject PickUp;
+   // public GameObject Ammo;
+
+
 
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             Vector3 force = new Vector3(0, jumpForce, 0);
 
             rb.AddForce(force);
             Debug.Log("Got Key Down");
+
         }
         if (Input.GetKey(KeyCode.D))
         {
@@ -30,6 +36,8 @@ public class WormsController : MonoBehaviour
 
             rb.AddForce(keyd);
             Debug.Log("Got Key D");
+
+            hopefully(true);
         }
 
         if (Input.GetKey(KeyCode.A))
@@ -39,17 +47,15 @@ public class WormsController : MonoBehaviour
 
             rb.AddForce(keya);
             Debug.Log("Got Key A");
+
+            hopefully(false);
         }
+
+
         if (Input.GetKeyDown(ShootKey))
         {
-            Rigidbody clone;
+            shoot();
 
-            Vector3 fix = new Vector3(0.5f, 0.5f, 0f);
-            clone = Instantiate(rbAmmo, transform.position + fix, transform.rotation);
-            clone.velocity = transform.TransformDirection(AmmoForce, 0f, 0f);
-
-            Vector3 keyr = new Vector3(AmmoForce, 0, 0);
-            rbAmmo.AddForce(keyr);
         }
 
         if (Input.GetKeyDown(negativeShootKey))
@@ -63,6 +69,8 @@ public class WormsController : MonoBehaviour
             Vector3 keyr = new Vector3(-AmmoForce, 0, 0);
             rbAmmo.AddForce(keyr);
         }
+
+
 
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -90,9 +98,55 @@ public class WormsController : MonoBehaviour
             rb2.AddForce(keyleft);
             Debug.Log("Got Key A");
 
+            
+
         }
+       // BoxCollider pick = PickUp.GetComponent<BoxCollider>();
+
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log("Collisiannnn");
+
+        if (other.gameObject.tag == "PickUp")
+        {
+            Destroy(other.gameObject);
+        }
+    }
 
 
+    public void shoot ()
+    {
 
+
+        Rigidbody clone;
+
+        Vector3 fix = new Vector3(0.5f, 0.5f, 0f);
+        clone = Instantiate(rbAmmo, transform.position + fix, transform.rotation);
+        clone.velocity = transform.TransformDirection(AmmoForce, 0f, 0f);
+
+        Vector3 keyr = new Vector3(AmmoForce, 0, 0);
+        rbAmmo.AddForce(keyr);
+    }
+
+    void hopefully (bool isRight)
+    {
+        if (isRight == true)
+        {
+            Debug.Log("Facing Right");
+        }
+        else
+        {
+            Debug.Log("Facing Left");
+        }
+    }
+
+    void Flip ()
+    {
+        isfacingRight = !isfacingRight;
+        Vector3 hoi = transform.localScale;
+        hoi.x *= -1;
+        transform.localScale = hoi;
     }
 }
