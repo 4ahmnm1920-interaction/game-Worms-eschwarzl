@@ -105,7 +105,7 @@ public class WormsController : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter(Collision other)
+   /* private void OnCollisionEnter(Collision other)
     {
         Debug.Log("Collisiannnn");
 
@@ -114,7 +114,7 @@ public class WormsController : MonoBehaviour
             Destroy(other.gameObject);
         }
     }
-
+    */
 
     public void shoot ()
     {
